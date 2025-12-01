@@ -1,0 +1,5 @@
+{
+  "name": "gestion-escolar",
+  "description": "Sistema escolar en PHP con Supabase",
+  "require": {}
+}
