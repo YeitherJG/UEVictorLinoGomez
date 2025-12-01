@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style_sesion.css">
+
+  <style>
+  .notification {
+      display: none; /* Ocultar por defecto */
+      color: red;
+      margin-top: 10px;
+    }
+    .logo-left {
+      position: absolute;
+      top: 2%;
+      left: 0;
+      width: 340px;
+      height: 230px;
+    }
+
+    .logo-right {
+      position: absolute;
+      top: -1%;
+      right: 0;
+      width: 380px;
+      height: 250px;
+    }
+  </style>
+</head>
+<body>
+  <img src="img/PNF.png" alt="Logo PNF" class="logo-right" style="right: 50px; border-radius: 80px;">
+  <img src="img/VictorLinoGomez.png" alt="Logo_institucion" class="logo-left" style="left:50px; border-radius: 50px;">
+</body>
+  </style>
+</head>
+<body>
+  <div class="login-container">
+  <div class="login-box">
+    <div class="avatar">
+      <i class="fas fa-user-circle"></i>
+    </div>
+    <h2>Inicio de Sesión</h2>
+    <div class="notification" id="notification"></div>
+    <form action="login.php" method="post">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" name="usuario" placeholder="Usuario" required>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="contraseña" placeholder="Contraseña" required>
+      </div>
+      <button type="submit">LOGIN</button>
+      <a href="registrar.php" class="register-link">Registrar</a>
+    </form>
+  </div>
+</div>
+
+  <script>
+    // Simulando la obtención de un mensaje de error
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorType = urlParams.get('error');
+
+    let errorMessage = '';
+    if (errorType) {
+      switch (errorType) {
+        case 'contraseña':
+          errorMessage = 'La contraseña que ingresaste es incorrecta. Por favor, inténtalo de nuevo.';
+          break;
+        case 'usuario':
+          errorMessage = 'No se encontró un usuario con ese nombre. ¿Te equivocaste al escribirlo?';
+          break;
+        default:
+          errorMessage = 'Usuario o Contraseña incorrectas.';
+      }
+    }
+
+    // Mostrar la notificación si hay un mensaje de error
+    window.onload = function() {
+      var notificationElement = document.getElementById('notification');
+      if (errorMessage) {
+        notificationElement.innerText = errorMessage;
+        notificationElement.style.display = 'block'; // Mostrar el mensaje
+      }
+    }
+
+    // Función para simular la verificación del inicio de sesión
+    function checkLogin() {
+      // Aquí puedes agregar la lógica para validar el inicio de sesión.
+      // Por simplicidad, retornamos true para permitir el envío del formulario.
+      return true;
+    }
+  </script>
+</body>
+</html>
+
