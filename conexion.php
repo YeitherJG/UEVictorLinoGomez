@@ -1,14 +1,8 @@
 <?php
-$host = getenv("DB_HOST");      // guarda tus credenciales en Render como variables de entorno
-$port = getenv("DB_PORT");
-$dbname = getenv("DB_NAME");
-$user = getenv("DB_USER");
-$password = getenv("DB_PASSWORD");
-
+$dsn = getenv("DATABASE_URL"); // la cadena completa del pooler session mode
 try {
-    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
-    $conexion = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-    echo "✅ Conexión exitosa a Supabase!";
+    $conexion = new PDO($dsn, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    echo "✅ Conexión exitosa usando pooler session mode!";
 } catch (PDOException $e) {
     die("❌ Error de conexión: " . $e->getMessage());
 }
