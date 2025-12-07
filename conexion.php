@@ -10,7 +10,6 @@ try {
     $conexion = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
-    echo "✅ Conexión exitosa a Supabase!";
 } catch (PDOException $e) {
     die("❌ Error de conexión: " . $e->getMessage());
 }
