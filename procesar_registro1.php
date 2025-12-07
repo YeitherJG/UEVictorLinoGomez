@@ -7,7 +7,7 @@ session_start(); // Iniciar la sesión
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtener los datos del formulario
     $usuario = $_POST['usuario'];
-    $contraseña = $_POST['contrasena'];
+    $contraseña = $_POST['contraseña'];
     $rol = $_POST['rol']; // Obtener el rol del formulario
 
     // Validar los datos del formulario (opcional)
@@ -21,22 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Intentar ejecutar la consulta
-        if (mysqli_query($conexion, $sql)) {
-            // Registro exitoso
-            $_SESSION['mensaje'] = "Registro exitoso!";
-            $_SESSION['mensaje_tipo'] = "success"; // Tipo de mensaje
-        }
-    } catch (mysqli_sql_exception $e) {
-        // Capturar el error y almacenar en la sesión
-        $_SESSION['mensaje'] = "Error: El usuario ya existe. Por favor elige otro.";
-        $_SESSION['mensaje_tipo'] = "error"; // Tipo de mensaje
-    }
+          if ($stmt->execute()) {
+        $_SESSION['mensaje'] = "Registro exitoso!";
+        $_SESSION['mensaje_tipo'] = "success";
+              
+    } catch (PDOException $e) {
+    // Capturar error (ej. usuario duplicado)
+    $_SESSION['mensaje'] = "Error: El usuario ya existe o hubo un problema.";
+    $_SESSION['mensaje_tipo'] = "error";
+}
 
-    // Cerrar la conexión
-    mysqli_close($conexion);
+    // Cerrar conexión en PDO
+    $conexion = null;
 
     // Redirigir a registro.php
     header("Location: registrar.php");
     exit(); // Asegurarse de que no se ejecute más código después de redirigir
 }
 ?>
+
