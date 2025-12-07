@@ -3,3 +3,9 @@
   "description": "Sistema escolar en PHP con Supabase",
   "require": {}
 }
+{
+  "require": {
+    "ext-pdo_pgsql": "*",
+    "ext-pgsql": "*"
+  }
+}
