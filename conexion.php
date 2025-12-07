@@ -1,9 +1,13 @@
 <?php
-// Usa la cadena completa del pooler en una variable de entorno DATABASE_URL
-$dsn = getenv("DATABASE_URL"); 
+$host = getenv("DB_HOST");      // ej. aws-0-[region].pooler.supabase.com
+$port = getenv("DB_PORT");      // 5432
+$dbname = getenv("DB_NAME");    // postgres
+$user = getenv("DB_USER");      // postgres
+$password = getenv("DB_PASSWORD"); // tu contraseña
 
 try {
-    $conexion = new PDO($dsn, null, null, [
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+    $conexion = new PDO($dsn, $user, $password, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
     echo "✅ Conexión exitosa a Supabase!";
