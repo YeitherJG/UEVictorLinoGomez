@@ -4,7 +4,7 @@ include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['usuario'];
-    $password = $_POST['contrasenza'];
+    $password = $_POST['contraseña'];
 
     // Preparar consulta con PDO
     $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
@@ -29,4 +29,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
