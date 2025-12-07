@@ -5,10 +5,13 @@ $dbname = "postgres";
 $user = "postgres";
 $password = "Esojgabriel2003*";
 
-$conexion = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-
-if (!$conexion) {
-    die("Error de conexión: " . pg_last_error());
+try {
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+    $conexion = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    echo "✅ Conexión exitosa a Supabase!";
+} catch (PDOException $e) {
+    die("❌ Error de conexión: " . $e->getMessage());
 }
 ?>
+
 
