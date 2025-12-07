@@ -25,7 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['mensaje'] = "Registro exitoso!";
         $_SESSION['mensaje_tipo'] = "success";
               
-    } catch (PDOException $e) {
+        } 
+     } catch (PDOException $e) {
     // Capturar error (ej. usuario duplicado)
     $_SESSION['mensaje'] = "Error: El usuario ya existe o hubo un problema.";
     $_SESSION['mensaje_tipo'] = "error";
@@ -39,4 +40,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit(); // Asegurarse de que no se ejecute más código después de redirigir
 }
 ?>
+
 
