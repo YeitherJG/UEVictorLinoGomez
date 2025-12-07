@@ -3,7 +3,8 @@ FROM php:8.2-cli
 
 # Instalar extensiones necesarias para PostgreSQL
 RUN apt-get update && apt-get install -y libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql pgsql
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && rm -rf /var/lib/apt/lists/*
 
 # Establecer directorio de trabajo
 WORKDIR /app
