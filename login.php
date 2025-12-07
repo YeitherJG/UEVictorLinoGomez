@@ -3,17 +3,17 @@ session_start();
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = mysqli_real_escape_string($conexion, $_POST['usuario']);
+    $username = $_POST['usuario'];
     $password = $_POST['contrasenza'];
 
-    $sql = "SELECT * FROM usuarios WHERE usuario = ?";
+    // Preparar consulta con PDO
+    $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("s", $username);
+    $stmt->bindParam(':usuario', $username, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
+    if ($row) {
         if (password_verify($password, $row['contrasena'])) {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['usuario'] = $row['usuario']; // opcional
@@ -27,8 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index.html?error=usuario");
         exit();
     }
-
-    $stmt->close();
-    $conexion->close();
 }
 ?>
+
