@@ -16,17 +16,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO usuarios (usuario, contrasena, rol) VALUES (:usuario, :contrasena, :rol)";
 
     try {
-        $stmt = $conexion->prepare($sql);
-        $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
-        $stmt->bindParam(':contrasena', $contrasena_codificada, PDO::PARAM_STR);
-        $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
+        // 1️⃣ Verificar si el usuario ya existe
+        $check = $conexion->prepare("SELECT id FROM usuarios WHERE usuario = :usuario");
+        $check->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+        $check->execute();
 
-        if ($stmt->execute()) {
-            $_SESSION['mensaje'] = "Registro exitoso!";
-            $_SESSION['mensaje_tipo'] = "success";
+        if ($check->fetch()) {
+            // Usuario ya existe
+            $_SESSION['mensaje'] = "El usuario ya existe, elige otro.";
+            $_SESSION['mensaje_tipo'] = "error";
+        } else {
+            // 2️⃣ Insertar nuevo usuario
+            $sql = "INSERT INTO usuarios (usuario, contrasena, rol) 
+                    VALUES (:usuario, :contrasena, :rol)";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+            $stmt->bindParam(':contrasena', $contrasena_codificada, PDO::PARAM_STR);
+            $stmt->bindParam(':rol', $rol, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                $_SESSION['mensaje'] = "Registro exitoso!";
+                $_SESSION['mensaje_tipo'] = "success";
+            }
         }
     } catch (PDOException $e) {
-        $_SESSION['mensaje'] = "Error: El usuario ya existe o hubo un problema.";
+        $_SESSION['mensaje'] = "Error en registro: " . $e->getMessage();
         $_SESSION['mensaje_tipo'] = "error";
     }
 
@@ -38,3 +52,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 ?>
+
